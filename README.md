@@ -35,6 +35,8 @@ cd uktools
 ```
 It will store config, so if you want to update kernel with same settings, just run ./ukupgrade
 
+The daily update works fine but at 5am ... (on ubuntu 17.10 desktop) so you have to be early =)
+
 ### In order to call script as bash commannd
 
 * Run
