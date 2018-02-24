@@ -24,8 +24,7 @@ Mint and derivatives. Non-Based
 * Download
 
 ```
-git clone https://github.com/MarauderXtreme/uktools
-cd uktools
+git clone https://github.com/MarauderXtreme/uktools && cd uktools
 ```
 
 * Call the setup
