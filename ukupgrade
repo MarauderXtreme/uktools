@@ -9,11 +9,11 @@
 # @author Usb Key
 # @mail usbkey9@gmail.com
 
-cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+if [ ! /etc/cron.daily = pwd ]; then cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"; fi
 
-if [ ! -f ./config.cfg ]; then ./setup ; fi
+if [ ! -f ./ukuk.cfg ]; then ./setup ; fi
 
-source ./config.cfg
+source ./ukuk.cfg
 
 function download() {
   wget $_PROGRESS_OPT -P /tmp $(lynx -dump -listonly -dont-wrap-pre $kernelURL | grep "$1" | grep "$2" | grep "$arch" | cut -d ' ' -f 4 | tail -1)
@@ -29,11 +29,9 @@ case "$kernelrc" in
    *) kernelURL="http://kernel.ubuntu.com/~kernel-ppa/mainline/"$(lynx -dump -nonumbers http://kernel.ubuntu.com/~kernel-ppa/mainline/ | grep -v rc | rev | cut -d '/' -f 2 | rev | grep -E 'v.+' | sort -V | rev | cut -d ' ' -f 1 | rev | tail -1)"/" ;;
 esac
 
-remoteV=$(echo $kernelURL | awk -F"/v" '{print $2}' | cut -d'/' -f 1)
-localV=$(dpkg-deb -f /tmp/linux-*.deb Version | cut -d'-' -f 1)
-
-if [ $remoteV = $localV ]; then
-	echo 'Kernel up to date. Finishing';
+# Same version test
+if [ $(echo $kernelURL | awk -F"/v" '{print $2}' | cut -d'/' -f 1) = $(dpkg-deb -f /tmp/linux-*.deb Version | cut -d'-' -f 1) ]; then
+	echo 'Kernel up to date. Finishing'
 	exit
 fi
 
@@ -83,7 +81,7 @@ cat << EOF
 Finished.
 EOF
 
-if [ $cron = 0 ]; then
+if [ ! /etc/cron.daily = pwd ]; then
 	read -p 'Do you want to reboot system now? (y/n)(10s to No): ' -n 1 -t 10 -s rs
 	case "$rs" in
 	  y | Y)

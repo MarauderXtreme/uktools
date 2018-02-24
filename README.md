@@ -28,9 +28,11 @@ git clone https://github.com/MarauderXtreme/uktools
 ```
 
 * Call the setup
+
 ```
 ./uktools/setup
 ```
+It will store config, so if you want to update kernel with same settings, just run ./uktools/ukupgrade
 
 ### In order to call script as bash commannd
 

@@ -22,11 +22,11 @@ EOF
 
 cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ -f ./config.cfg ]; then rm ./config.cfg; fi
+if [ -f ./uk.cfg ]; then rm ./uk.cfg; fi
 
 if ! which lynx > /dev/null; then sudo apt-get install lynx -y; fi
 if ! which curl > /dev/null; then sudo apt-get install curl -y; fi
-if [ "$(getconf LONG_BIT)" == "64" ]; then echo 'arch="amd64"' >> config.cfg; else echo 'arch="i386"' >> config.cfg; fi
+if [ "$(getconf LONG_BIT)" == "64" ]; then echo 'arch="amd64"' >> uk.cfg; else echo 'arch="i386"' >> uk.cfg; fi
 wgetv="$(wget --version | head -1 | cut -d' ' -f3)"
 reqv='1.16'
 
@@ -63,33 +63,29 @@ else
   echo 'Nothing to do. Your wget supports everything needed.'
 fi
 
-#TODO test if cfg file is manipulated in the good dir (here and in ukupgrade)
-
 # Kernel URL
 read -p 'Do you want the Latest Build (aka ReleaseCandidate/RC)? (y/n): ' -n 1 -s rc
 case "$rc" in
-   y | Y) echo 'Oh! The Release Candidate'; echo 'kernelrc="1"' >> config.cfg ;;
-   *) echo 'Ok! The Stable Release'; echo 'kernelrc="0"' >> config.cfg ;;
+   y | Y) echo 'Oh! The Release Candidate'; echo 'kernelrc="1"' >> uk.cfg ;;
+   *) echo 'Ok! The Stable Release'; echo 'kernelrc="0"' >> uk.cfg ;;
 esac
 
 read -p 'Do you want the lowlatency kernel? (y/n): ' -n 1 -s km
 case "$km" in
-   y | Y) echo 'LowLatency'; echo 'kernelmode=lowlatency"' >> config.cfg ;;
-   *) echo 'Generic'; echo 'kernelmode="generic"' >> config.cfg ;;
+   y | Y) echo 'LowLatency'; echo 'kernelmode=lowlatency"' >> uk.cfg ;;
+   *) echo 'Generic'; echo 'kernelmode="generic"' >> uk.cfg ;;
 esac
 
 read -p 'Setup complete. Do you want to run it daily? (y/n): ' -n 1 -s day
 case "$day" in
-   y | Y) echo 'Cronning';
-   	sudo mkdir -p /etc/cron.daily/ukupgrade
-   	sudo cp -fr config.cfg ukupgrade /etc/cron.daily/ukupgrade
-   	echo 'cron=1' | sudo tee --append /etc/cron.daily/ukupgrade/config.cfg ;;
-   *) if [ -d /etc/cron.daily/ukupgrade ]; then
-   	echo 'Deleting cron daily'; sudo rm -fr /etc/cron.daily/ukupgrade;
+   y | Y) echo 'Cronning'
+   	sudo cp -f uk.cfg ukupgrade /etc/cron.daily/ ;;
+   *) if [ -f /etc/cron.daily/ukupgrade ]; then
+   	echo 'Deleting cron daily'
+   	sudo rm /etc/cron.daily/ukupgrade
+   	sudo rm /etc/cron.daily/uk.cfg
       fi ;;
 esac
-
-echo 'cron=0' >> config.cfg
 
 cat << EOF
 
