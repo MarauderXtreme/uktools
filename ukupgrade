@@ -11,9 +11,9 @@
 
 if [ ! /etc/cron.daily = pwd ]; then cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"; fi
 
-if [ ! -f ./ukuk.cfg ]; then ./setup ; fi
+if [ ! -f ./uk.cfg ]; then ./setup ; fi
 
-source ./ukuk.cfg
+source ./uk.cfg
 
 function download() {
   wget $_PROGRESS_OPT -P /tmp $(lynx -dump -listonly -dont-wrap-pre $kernelURL | grep "$1" | grep "$2" | grep "$arch" | cut -d ' ' -f 4 | tail -1)
@@ -30,7 +30,7 @@ case "$kernelrc" in
 esac
 
 # Same version test
-if [ $(echo $kernelURL | awk -F"/v" '{print $2}' | cut -d'/' -f 1) = $(dpkg-deb -f /tmp/linux-*.deb Version | cut -d'-' -f 1) ]; then
+if [ $(echo $kernelURL | awk -F"/v" '{print $2}' | cut -d'/' -f 1) = $(uname -r | cut -d'-' -f 1) ]; then
 	echo 'Kernel up to date. Finishing'
 	exit
 fi

@@ -25,21 +25,22 @@ Mint and derivatives. Non-Based
 
 ```
 git clone https://github.com/MarauderXtreme/uktools
+cd uktools
 ```
 
 * Call the setup
 
 ```
-./uktools/setup
+./setup
 ```
-It will store config, so if you want to update kernel with same settings, just run ./uktools/ukupgrade
+It will store config, so if you want to update kernel with same settings, just run ./ukupgrade
 
 ### In order to call script as bash commannd
 
 * Run
 ```
-sudo mv ./uktools/ukupgrade /usr/bin/do-kernel-upgrade
-sudo mv ./uktools/ukpurge   /usr/bin/do-kernel-purge
+sudo mv ./ukupgrade /usr/bin/do-kernel-upgrade
+sudo mv ./ukpurge   /usr/bin/do-kernel-purge
 ```
 * Add executable permission
 ```
