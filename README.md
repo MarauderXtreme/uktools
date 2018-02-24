@@ -21,25 +21,23 @@ Mint and derivatives. Non-Based
 
 ## Usages
 
-* Download latest script (ukupgrade/ukpurge)
+* Download
 
 ```
-curl https://raw.githubusercontent.com/MarauderXtreme/uktools/master/ukupgrade > ukupgrade
-curl https://raw.githubusercontent.com/MarauderXtreme/uktools/master/ukpurge   > ukpurge
+git clone https://github.com/MarauderXtreme/uktools
 ```
 
-* Call the script
+* Call the setup
 ```
-./ukupgrade
-./ukpurge
+./uktools/setup
 ```
 
 ### In order to call script as bash commannd
 
 * Run
 ```
-sudo mv ./ukupgrade /usr/bin/do-kernel-upgrade
-sudo mv ./ukpurge   /usr/bin/do-kernel-purge
+sudo mv ./uktools/ukupgrade /usr/bin/do-kernel-upgrade
+sudo mv ./uktools/ukpurge   /usr/bin/do-kernel-purge
 ```
 * Add executable permission
 ```
@@ -69,5 +67,10 @@ do-kernel-purge
 | homepage | [Kepler International](https://kepler.international/ "Kepler International") |
 |:-:|:-:|
 | email | development@kepler.international |
+
+[Usb Key] - setup author
+
+| email | usbkey9@gmail.com |
+|:-:|:-:|
 
 [Project Status Image]: https://img.shields.io/badge/project-active-green.svg "Project Status: Active"
