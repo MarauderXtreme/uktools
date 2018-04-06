@@ -19,37 +19,45 @@ Mint and derivatives. Non-Based
 
 -----------------------------------------
 
+# One-line Install
+
+```
+cd /usr/src && \
+sudo wget https://github.com/usbkey9/uktools/archive/master.tar.gz && \
+sudo tar -xvf master.tar.gz && \
+sudo rm -fr master.tar.gz && \
+cd uktools-master && \
+./ukupgrade -simple
+```
+
 ## Usages
 
-* Download latest script (ukupgrade/ukpurge)
+* Download
 
 ```
-curl https://raw.githubusercontent.com/MarauderXtreme/uktools/master/ukupgrade > ukupgrade
-curl https://raw.githubusercontent.com/MarauderXtreme/uktools/master/ukpurge   > ukpurge
+git clone https://github.com/usbkey9/uktools && cd uktools
 ```
 
-* Call the script
-```
-./ukupgrade
-./ukpurge
-```
+* Run the Makefile
 
-### In order to call script as bash commannd
+```
+sudo make
+```
+It'll install necessary files and run setup
 
-* Run
-```
-sudo mv ./ukupgrade /usr/bin/do-kernel-upgrade
-sudo mv ./ukpurge   /usr/bin/do-kernel-purge
-```
-* Add executable permission
-```
-sudo chmod +x /usr/bin/do-kernel-upgrade
-sudo chmod +x /usr/bin/do-kernel-purge
-```
+
 * Now you can call the script whereever you are
+
 ```
 do-kernel-upgrade
 do-kernel-purge
+```
+
+* Optionnal
+
+You can re-run setup script by:
+```
+./setup
 ```
 
 ## Author's
@@ -64,10 +72,15 @@ do-kernel-purge
 | email | caiooliveirafarias0@gmail.com |
 |:-:|:-:|
 
-[Christoph Kepler](https://github.com/MarauderXtreme) - current maintainer and developer
+[Christoph Kepler](https://github.com/MarauderXtreme) - developer
 
 | homepage | [Kepler International](https://kepler.international/ "Kepler International") |
 |:-:|:-:|
 | email | development@kepler.international |
+
+[Usb Key](https://github.com/usbkey9) - current maintainer and setup, cronjob and motd author
+
+| email | usbkey9@gmail.com |
+|:-:|:-:|
 
 [Project Status Image]: https://img.shields.io/badge/project-active-green.svg "Project Status: Active"

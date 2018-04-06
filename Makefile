@@ -1,5 +1,6 @@
 DESTDIR = 
-PREFIX = /usr/bin
+PREFIX = /usr/sbin
+MY_DIR := $(realpath ./)
 
 .PHONY: all
 all: make-exec install
@@ -8,9 +9,12 @@ all: make-exec install
 install: ukupgrade ukpurge
 	@echo Creating the directories if neccessary
 	@mkdir -p     $(DESTDIR)$(PREFIX)
-	@echo Copying files to global bin directory
-	@cp ukupgrade $(DESTDIR)$(PREFIX)/do-kernel-upgrade
-	@cp ukpurge   $(DESTDIR)$(PREFIX)/do-kernel-purge
+	@echo Linking profile.d file for reboot message
+	@ln -s $(MY_DIR)/profile	/etc/profile.d/ukupgrade.sh
+	@echo Linking files to global sbin directory
+	@ln -s $(MY_DIR)/ukupgrade	$(DESTDIR)$(PREFIX)/do-kernel-upgrade
+	@ln -s $(MY_DIR)/ukpurge  	$(DESTDIR)$(PREFIX)/do-kernel-purge
+	@do-kernel-upgrade
 
 .PHONY: make-exec
 make-exec: ukupgrade ukpurge
@@ -20,8 +24,10 @@ make-exec: ukupgrade ukpurge
 
 .PHONY: uninstall
 uninstall:
-	@echo Removing do-kernel- binaries
+	@echo Removing do-kernel- links
 	@rm -f $(DESTDIR)$(PREFIX)/do-kernel-*
+	@echo Removing profile.d file
+	@rm -f /etc/profile.d/ukupgrade.sh
 
 .PHONY: upgrade
 upgrade: uninstall make-exec install

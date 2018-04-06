@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# @author Mustafa Hasturk
+# @mail mustafa.hasturk@yandex.com
+# @author Caio Oliveira
+# @mail caiooliveirafarias0@gmail.com
+# @author Christoph Kepler
+# @mail development@kepler.international
+# @author Usb Key
+# @mail usbkey9@gmail.com
+
+cat << EOF
+Ubuntu Kernel Upgrade - by Mustafa Hasturk
+------------------------------------------
+This script is based on the work of Mustafa Hasturk and was reworked by
+Caio Oliveira and modified and fixed by Christoph Kepler
+
+Current Development and Maintenance by Christoph Kepler
+
+EOF
+
+if [ -f ./ukupgrade ]; then
+	SOURCE="${BASH_SOURCE[0]}"
+	while [ -h "$SOURCE" ]; do
+		DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+		SOURCE="$(readlink "$SOURCE")"
+		[[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+	done
+	DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+	cd $DIR
+fi
+
+if [ -f ./uku.cfg ]; then rm ./uku.cfg; fi
+
+script="$DIR/ukupgrade"
+
+# Kernel URL
+read -p 'Do you want the Latest Build (aka ReleaseCandidate/RC)? (y/n): ' -n 1 -s rc
+case "$rc" in
+	y | Y) echo 'Oh! The Release Candidate'; echo 'kernelrc=1' >> uku.cfg ;;
+	n | N) echo 'Ok! The Stable Release'; echo 'kernelrc=0' >> uku.cfg ;;
+	*) echo 'Cron try to run script while setup not runned. Aborting'; exit ;;
+esac
+
+read -p 'Do you want the lowlatency kernel? (y/n): ' -n 1 -s km
+case "$km" in
+	y | Y) echo 'LowLatency'; echo 'kernelmode="lowlatency"' >> uku.cfg ;;
+	*) echo 'Generic'; echo 'kernelmode="generic"' >> uku.cfg ;;
+esac
+
+read -p 'Do you want to autoremove old kernel? (y/n): ' -n 1 -s arm
+case "$arm" in
+	y | Y) echo 'Auto Remove'; echo 'arm=1' >> uku.cfg ;;
+	*) echo 'Manual Remove'; echo 'arm=0' >> uku.cfg ;;
+esac
+
+sudo crontab -u root -l | grep -v $script | sudo crontab -u root -
+
+read -p 'Do you want to update the kernel automatically? (y/n): ' -n 1 -s day
+case "$day" in
+	y | Y) echo 'Cronning'
+		echo 'cron=1' >> uku.cfg
+		(sudo crontab -u root -l ; echo "0 */5 * * * $script > /tmp/uku.log 2>&1") | sudo crontab -u root - ;;
+	*) echo 'Deleting cron daily'
+		echo 'cron=0' >> uku.cfg ;;
+esac
+
+read -p 'Setup complete. Update the kernel right now? (y/n): ' -n 1 -s now
+case "$now" in
+	y | Y) echo 'Downloading'; ./ukupgrade ;;
+esac
+
+cat << EOF
+
+
+Thanks for using this script! Hope it helped.
+Give it a star: https://github.com/MarauderXtreme/uktools
+EOF
