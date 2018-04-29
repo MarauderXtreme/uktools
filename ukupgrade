@@ -38,7 +38,7 @@ if ! which lynx > /dev/null; then sudo apt-get install lynx -y; fi
 arch=$(dpkg --print-architecture)
 
 function download() {
-	wget $_PROGRESS_OPT -P /tmp $(lynx -dump -listonly -dont-wrap-pre $kernelURL | grep "$1" | grep "$2" | grep "$arch" | cut -d ' ' -f 4 | tail -1)
+	wget -q --show-progress -P /tmp $(lynx -dump -listonly -dont-wrap-pre $kernelURL | grep "$1" | grep "$2" | grep "$arch" | cut -d ' ' -f 4 | tail -1)
 	if [ $? == "1" ]; then
 		echo "Download failed!"
 		exit 1
@@ -123,7 +123,7 @@ cat << EOF
 
 Downloading the shared kernel header...
 EOF
-wget $_PROGRESS_OPT -P /tmp $(lynx -dump -listonly -dont-wrap-pre $kernelURL | grep all | grep headers | cut -d ' ' -f 4 | tail -1)
+wget -q --show-progress -P /tmp $(lynx -dump -listonly -dont-wrap-pre $kernelURL | grep all | grep headers | cut -d ' ' -f 4 | tail -1)
 if [ $? == '1' ]; then
 	echo 'Download failed!'
 	exit 1
