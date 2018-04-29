@@ -84,7 +84,7 @@ esac
 reqVersion=$(echo $kernelURL | awk -F "/v" '{print $2}' | cut -d '/' -f 1)
 locVersion=$(dpkg -l | grep linux-image | grep $kernelmode | awk '{print $2}' | sed -e 's/.0-.*rc/.rc/' | cut -d '-' -f 3 | sed -e 's/.rc/-rc/')
 
-if grep -Fxq "$reqVersion" <<< "$locVersion"; then
+if echo "$locVersion" | grep -Fxq "$reqVersion"; then
 	echo 'Kernel up to date. Finishing'
 	exit
 fi
