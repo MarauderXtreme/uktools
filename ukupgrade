@@ -96,12 +96,12 @@ Cleaning old downloads in /tmp
 EOF
 cleanTmp
 
-# Download Kernel Header
+# Download Kernel Modules
 cat << EOF
 
-Downloading the latest $kernelmode kernel header...
+Downloading the latest $kernelmode kernel module...
 EOF
-download $kernelmode header
+download $kernelmode module
 
 # Download Kernel Image
 cat << EOF
@@ -109,6 +109,14 @@ cat << EOF
 Downloading the latest $kernelmode kernel image...
 EOF
 download $kernelmode image
+
+# Download Kernel Header
+cat << EOF
+
+Downloading the latest $kernelmode kernel header...
+EOF
+download $kernelmode header
+
 
 # Download Shared Kernel Header
 cat << EOF
@@ -131,7 +139,9 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1 ; do
     sleep 0.5
 done
 
-sudo dpkg -i /tmp/linux*.deb
+sudo dpkg -i /tmp/linux-modules*.deb
+sudo dpkg -i /tmp/linux-image*.deb
+sudo dpkg -i /tmp/linux-header*.deb
 cleanTmp
 touch /tmp/ukupgrade.nr
 
