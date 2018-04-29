@@ -45,7 +45,7 @@ function download() {
 	fi
 }
 
-function cleanTmp() {
+function cleanup() {
 	sudo rm -rf /tmp/linux*.deb
 }
 
@@ -81,20 +81,20 @@ case "$kernelrc" in
 esac
 
 # Same version test
-reqVersion=$(echo $kernelURL | awk -F"/v" '{print $2}' | cut -d'/' -f 1)
-locVersion=$(dpkg -l |grep linux-image | grep $kernelmode | awk '{print $2}' | sed -e 's/.0-.*rc/.rc/' | cut -d'-' -f 3 | sed -e 's/.rc/-rc/')
+reqVersion=$(echo $kernelURL | awk -F "/v" '{print $2}' | cut -d '/' -f 1)
+locVersion=$(dpkg -l | grep linux-image | grep $kernelmode | awk '{print $2}' | sed -e 's/.0-.*rc/.rc/' | cut -d '-' -f 3 | sed -e 's/.rc/-rc/')
 
 if grep -Fxq "$reqVersion" <<< "$locVersion"; then
 	echo 'Kernel up to date. Finishing'
 	exit
 fi
 
-# Clean TMP Kernel
+# Cleaning up tmp dir
 cat << EOF
 
 Cleaning old downloads in /tmp
 EOF
-cleanTmp
+cleanup
 
 # Download Kernel Modules
 cat << EOF
@@ -142,7 +142,7 @@ done
 sudo dpkg -i /tmp/linux-modules*.deb
 sudo dpkg -i /tmp/linux-image*.deb
 sudo dpkg -i /tmp/linux-header*.deb
-cleanTmp
+cleanup
 touch /tmp/ukupgrade.nr
 
 cat << EOF
