@@ -140,8 +140,8 @@ while fuser /var/lib/dpkg/lock >/dev/null 2>&1 ; do
 done
 
 sudo dpkg -i /tmp/linux-modules*.deb
-sudo dpkg -i /tmp/linux-image*.deb
 sudo dpkg -i /tmp/linux-header*.deb
+sudo dpkg -i /tmp/linux-image*.deb
 cleanup
 touch /tmp/ukupgrade.nr
 
